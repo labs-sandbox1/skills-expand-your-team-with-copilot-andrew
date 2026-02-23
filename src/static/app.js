@@ -304,6 +304,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return details.schedule;
   }
 
+  // Function to escape HTML special characters to prevent XSS
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
   // Function to handle social sharing
   function handleShare(button) {
     const activityName = button.dataset.activity;
@@ -343,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showMessage("Link copied to clipboard!", "success");
       }).catch((err) => {
         console.error("Failed to copy link:", err);
-        showMessage("Failed to copy link", "error");
+        showMessage("Failed to copy link. Please ensure you're using HTTPS and have granted clipboard permissions.", "error");
       });
     }
   }
@@ -615,16 +622,16 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
       <div class="share-buttons">
         <span class="share-label">Share:</span>
-        <button class="share-btn share-twitter" data-activity="${name}" data-description="${details.description.replace(/"/g, '&quot;')}" data-schedule="${formattedSchedule.replace(/"/g, '&quot;')}" title="Share on Twitter">
+        <button class="share-btn share-twitter" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share on Twitter">
           <span class="share-icon">𝕏</span>
         </button>
-        <button class="share-btn share-facebook" data-activity="${name}" title="Share on Facebook">
+        <button class="share-btn share-facebook" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share on Facebook">
           <span class="share-icon">f</span>
         </button>
-        <button class="share-btn share-email" data-activity="${name}" data-description="${details.description.replace(/"/g, '&quot;')}" data-schedule="${formattedSchedule.replace(/"/g, '&quot;')}" title="Share via Email">
+        <button class="share-btn share-email" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share via Email">
           <span class="share-icon">✉</span>
         </button>
-        <button class="share-btn share-copy" data-activity="${name}" title="Copy Link">
+        <button class="share-btn share-copy" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Copy Link">
           <span class="share-icon">🔗</span>
         </button>
       </div>
