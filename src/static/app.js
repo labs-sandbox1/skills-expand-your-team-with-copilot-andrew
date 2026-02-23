@@ -350,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showMessage("Link copied to clipboard!", "success");
       }).catch((err) => {
         console.error("Failed to copy link:", err);
-        showMessage("Failed to copy link. Please ensure you're using a secure context (HTTPS or localhost) and have granted clipboard permissions.", "error");
+        showMessage("Failed to copy link. Please try again or copy manually.", "error");
       });
     }
   }
