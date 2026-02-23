@@ -25,6 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeLoginModal = document.querySelector(".close-login-modal");
   const loginMessage = document.getElementById("login-message");
 
+  // Theme toggle elements
+  const themeToggle = document.getElementById("theme-toggle");
+  const themeIcon = document.getElementById("theme-icon");
+
   // Activity categories with corresponding colors
   const activityTypes = {
     sports: { label: "Sports", color: "#e8f5e9", textColor: "#2e7d32" },
@@ -861,7 +865,36 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeRangeFilter,
   };
 
+  // Theme toggle functionality
+  function initializeTheme() {
+    // Check localStorage for saved theme preference
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      document.body.classList.add("dark-mode");
+      themeIcon.textContent = "☀️";
+    } else {
+      themeIcon.textContent = "🌙";
+    }
+  }
+
+  function toggleTheme() {
+    document.body.classList.toggle("dark-mode");
+    
+    // Update icon and save preference
+    if (document.body.classList.contains("dark-mode")) {
+      themeIcon.textContent = "☀️";
+      localStorage.setItem("theme", "dark");
+    } else {
+      themeIcon.textContent = "🌙";
+      localStorage.setItem("theme", "light");
+    }
+  }
+
+  // Add event listener to theme toggle button
+  themeToggle.addEventListener("click", toggleTheme);
+
   // Initialize app
+  initializeTheme();
   checkAuthentication();
   initializeFilters();
   fetchActivities();
