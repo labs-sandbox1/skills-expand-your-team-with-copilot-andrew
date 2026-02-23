@@ -350,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showMessage("Link copied to clipboard!", "success");
       }).catch((err) => {
         console.error("Failed to copy link:", err);
-        showMessage("Failed to copy link. Please ensure you're using HTTPS and have granted clipboard permissions.", "error");
+        showMessage("Failed to copy link. Please ensure you're using a secure context (HTTPS or localhost) and have granted clipboard permissions.", "error");
       });
     }
   }
@@ -622,16 +622,16 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
       <div class="share-buttons">
         <span class="share-label">Share:</span>
-        <button class="share-btn share-twitter" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share on Twitter">
+        <button class="share-btn share-twitter" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share on Twitter" aria-label="Share on Twitter">
           <span class="share-icon">𝕏</span>
         </button>
-        <button class="share-btn share-facebook" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share on Facebook">
+        <button class="share-btn share-facebook" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share on Facebook" aria-label="Share on Facebook">
           <span class="share-icon">f</span>
         </button>
-        <button class="share-btn share-email" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share via Email">
+        <button class="share-btn share-email" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Share via Email" aria-label="Share via Email">
           <span class="share-icon">✉</span>
         </button>
-        <button class="share-btn share-copy" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Copy Link">
+        <button class="share-btn share-copy" data-activity="${escapeHtml(name)}" data-description="${escapeHtml(details.description)}" data-schedule="${escapeHtml(formattedSchedule)}" title="Copy Link" aria-label="Copy Link">
           <span class="share-icon">🔗</span>
         </button>
       </div>
