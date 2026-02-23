@@ -53,6 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
     weekend: { days: ["Saturday", "Sunday"] }, // Weekend days
   };
 
+  // Allowed difficulty levels
+  const ALLOWED_DIFFICULTIES = ['Beginner', 'Intermediate', 'Advanced'];
+
   // Initialize filters from active elements
   function initializeFilters() {
     // Initialize day filter
@@ -521,8 +524,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Create difficulty badge if difficulty is specified
     // Sanitize difficulty value to prevent XSS
-    const allowedDifficulties = ['Beginner', 'Intermediate', 'Advanced'];
-    const difficultyBadge = details.difficulty && allowedDifficulties.includes(details.difficulty) ? `
+    const difficultyBadge = details.difficulty && ALLOWED_DIFFICULTIES.includes(details.difficulty) ? `
       <span class="difficulty-badge difficulty-${details.difficulty.toLowerCase()}">
         ${details.difficulty}
       </span>
