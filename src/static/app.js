@@ -304,6 +304,50 @@ document.addEventListener("DOMContentLoaded", () => {
     return details.schedule;
   }
 
+  // Function to handle social sharing
+  function handleShare(button) {
+    const activityName = button.dataset.activity;
+    const description = button.dataset.description || "";
+    const schedule = button.dataset.schedule || "";
+    
+    // Generate the shareable URL (current page URL with activity name as hash)
+    const shareUrl = `${window.location.origin}${window.location.pathname}#${encodeURIComponent(activityName)}`;
+    const shareText = `Check out ${activityName} at Mergington High School! ${description} - ${schedule}`;
+    
+    if (button.classList.contains("share-twitter")) {
+      // Twitter/X sharing
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+      window.open(twitterUrl, "_blank", "width=550,height=420");
+    } else if (button.classList.contains("share-facebook")) {
+      // Facebook sharing
+      const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+      window.open(facebookUrl, "_blank", "width=550,height=420");
+    } else if (button.classList.contains("share-email")) {
+      // Email sharing
+      const emailSubject = `Check out ${activityName} at Mergington High School`;
+      const emailBody = `${shareText}\n\nLearn more: ${shareUrl}`;
+      window.location.href = `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    } else if (button.classList.contains("share-copy")) {
+      // Copy link to clipboard
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        // Show feedback
+        const originalIcon = button.querySelector(".share-icon").textContent;
+        button.querySelector(".share-icon").textContent = "✓";
+        button.style.backgroundColor = "var(--success)";
+        
+        setTimeout(() => {
+          button.querySelector(".share-icon").textContent = originalIcon;
+          button.style.backgroundColor = "";
+        }, 2000);
+        
+        showMessage("Link copied to clipboard!", "success");
+      }).catch((err) => {
+        console.error("Failed to copy link:", err);
+        showMessage("Failed to copy link", "error");
+      });
+    }
+  }
+
   // Function to determine activity type (this would ideally come from backend)
   function getActivityType(activityName, description) {
     const name = activityName.toLowerCase();
@@ -569,6 +613,21 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         }
       </div>
+      <div class="share-buttons">
+        <span class="share-label">Share:</span>
+        <button class="share-btn share-twitter" data-activity="${name}" data-description="${details.description.replace(/"/g, '&quot;')}" data-schedule="${formattedSchedule.replace(/"/g, '&quot;')}" title="Share on Twitter">
+          <span class="share-icon">𝕏</span>
+        </button>
+        <button class="share-btn share-facebook" data-activity="${name}" title="Share on Facebook">
+          <span class="share-icon">f</span>
+        </button>
+        <button class="share-btn share-email" data-activity="${name}" data-description="${details.description.replace(/"/g, '&quot;')}" data-schedule="${formattedSchedule.replace(/"/g, '&quot;')}" title="Share via Email">
+          <span class="share-icon">✉</span>
+        </button>
+        <button class="share-btn share-copy" data-activity="${name}" title="Copy Link">
+          <span class="share-icon">🔗</span>
+        </button>
+      </div>
     `;
 
     // Add click handlers for delete buttons
@@ -586,6 +645,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }
+
+    // Add click handlers for share buttons
+    const shareButtons = activityCard.querySelectorAll(".share-btn");
+    shareButtons.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        handleShare(button);
+      });
+    });
 
     activitiesList.appendChild(activityCard);
   }
